@@ -36,7 +36,7 @@
 ke_msg_id_t timer_used      __SECTION_ZERO("retention_mem_area0"); //@RETENTION MEMORY
 uint16_t indication_counter __SECTION_ZERO("retention_mem_area0"); //@RETENTION MEMORY
 uint16_t non_db_val_counter __SECTION_ZERO("retention_mem_area0"); //@RETENTION MEMORY
-
+bool authenticate_flag 			__SECTION_ZERO("retention_mem_area0"); //@RETENTION MEMORY
 /*
  * FUNCTION DEFINITIONS
  ****************************************************************************************
@@ -69,18 +69,52 @@ void user_svc1_led_wr_ind_handler(ke_msg_id_t const msgid,
                                      ke_task_id_t const dest_id,
                                      ke_task_id_t const src_id)
 {
-    uint8_t val = 0;
+   // uint8_t val = 0;
+		char val[10]=NULL;
     memcpy(&val, &param->value[0], param->length);
 
-    if (val == CUSTS1_LED_ON)
+   // if (val == CUSTS1_LED_ON)
+			if((strcmp(val,"LED_ON")==0) && authenticate_flag)
     {
         GPIO_SetActive(GPIO_LED_PORT, GPIO_LED_PIN);
     }
-    else if (val == CUSTS1_LED_OFF)
+    else if ((strcmp(val,"LED_OFF")==0) && authenticate_flag)
     {
         GPIO_SetInactive(GPIO_LED_PORT, GPIO_LED_PIN);
     }
 }
+
+
+
+//////////////////////////////////////////////////////AUTHENTICATE 0XDADADADA//////////////////////////////////////////
+void ble_authenticate_app(ke_msg_id_t const msgid,
+                                     struct custs1_val_write_ind const *param,
+                                     ke_task_id_t const dest_id,
+                                     ke_task_id_t const src_id)
+{
+	
+	if(!strcmp(&param->value[0],"0xDADADADA"))
+	authenticate_flag=true;
+	
+	else
+		app_easy_gap_disconnect(param->conidx);
+		
+	
+   // uint8_t val = 0;
+		/*char val[10]=NULL;
+    memcpy(&val, &param->value[0], param->length);
+
+   // if (val == CUSTS1_LED_ON)
+			if(strcmp(val,"LED_ON")==0)
+    {
+        GPIO_SetActive(GPIO_LED_PORT, GPIO_LED_PIN);
+    }
+    else if (strcmp(val,"LED_OFF")==0)
+    {
+        GPIO_SetInactive(GPIO_LED_PORT, GPIO_LED_PIN);
+    }*/
+}
+
 
 void user_svc1_long_val_cfg_ind_handler(ke_msg_id_t const msgid,
                                            struct custs1_val_write_ind const *param,
@@ -261,4 +295,9 @@ void user_svc3_read_non_db_val_handler(ke_msg_id_t const msgid,
     memcpy(&rsp->value, &non_db_val_counter, rsp->length);
     // Send message
     ke_msg_send(rsp);
+}
+
+void user_app_authenticate()
+{
+
 }

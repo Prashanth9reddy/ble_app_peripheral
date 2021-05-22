@@ -98,24 +98,24 @@ const uint16_t custs1_att_max_nb = SPPLE_IDX_NB;
 const struct attm_desc_128 custs1_att_db[SPPLE_IDX_NB] =
 {
 	
-		[SPPLE_APP_SVC] 											= {(uint8_t*)&att_decl_svc, ATT_UUID_128_LEN, PERM(RD, ENABLE),
+		[SPPLE_APP_SVC] 											= {(uint8_t*)&att_decl_svc, ATT_UUID_128_LEN, PERM(WR, ENABLE),
                                             sizeof(app_send_svc), sizeof(app_send_svc), (uint8_t*)&app_send_svc},/////MAIN SERVICE
 		
-		[SPPLE_IDX_APP_SEND_CHAR]											=	{(uint8_t*)&att_decl_char, ATT_UUID_16_LEN, PERM(RD, ENABLE),
-                                            0, 0, NULL},
+		[SPPLE_IDX_APP_SEND_CHAR]											=	{(uint8_t*)&att_decl_char, ATT_UUID_16_LEN, PERM(WR, ENABLE),
+                                            0, 1, NULL},
 		
-		[SPPLE_IDX_APP_SEND_VAL]											=	{SPPLE_APP_SEND_DATA, ATT_UUID_128_LEN, PERM(WR, ENABLE),
-                                            DEF_APP_SEND_CHAR_LEN, 0, NULL},
+		[SPPLE_IDX_APP_SEND_VAL]											=	{SPPLE_APP_SEND_DATA, ATT_UUID_128_LEN, PERM(WR, ENABLE) | PERM(WRITE_COMMAND, ENABLE),
+                                            PERM(RI, ENABLE) | DEF_SVC1_LED_STATE_CHAR_LEN, 0, NULL},
 		
 		[SPPLE_IDX_APP_SEND_USER_DESC] 				= {(uint8_t*)&att_desc_user_desc, ATT_UUID_16_LEN, PERM(RD, ENABLE),
                                             sizeof(DEF_APP_SEND_USER_DESC) - 1, sizeof(DEF_APP_SEND_USER_DESC) - 1,
                                             (uint8_t *) DEF_APP_SEND_USER_DESC},
 		
-		[SPPLE_BLE_SVC] 											= {(uint8_t*)&att_decl_svc, ATT_UUID_128_LEN, PERM(RD, ENABLE),
+		[SPPLE_BLE_SVC] 											= {(uint8_t*)&att_decl_svc, ATT_UUID_128_LEN, PERM(WR, ENABLE),
                                             sizeof(ble_send_svc), sizeof(ble_send_svc), (uint8_t*)&ble_send_svc},/////MAIN SERVICE
 	
 
-		[SPPLE_IDX_BLE_SEND_CHAR]											=	{(uint8_t*)&att_decl_char, ATT_UUID_16_LEN, PERM(RD, ENABLE),
+		[SPPLE_IDX_BLE_SEND_CHAR]											=	{(uint8_t*)&att_decl_char, ATT_UUID_16_LEN, PERM(WR, ENABLE),
                                             0, 0, NULL},
 		
 		[SPPLE_IDX_BLE_SEND_VAL]											=	{SPPLE_BLE_SEND_DATA, ATT_UUID_128_LEN, PERM(NTF, ENABLE),
@@ -130,15 +130,14 @@ const struct attm_desc_128 custs1_att_db[SPPLE_IDX_NB] =
                                             sizeof(auth_svc), sizeof(spple_svc), (uint8_t*)&auth_svc},/////MAIN SERVICE
 	
 																						
-		[SPPLE_IDX_AUTH_CHAR]											=	{(uint8_t*)&att_decl_char, ATT_UUID_16_LEN, PERM(RD, ENABLE),
+		[SPPLE_IDX_AUTH_CHAR]											=	{(uint8_t*)&att_decl_char, ATT_UUID_16_LEN, PERM(WR, ENABLE),
                                             0, 0, NULL},
 		
-		[SPPLE_IDX_AUTH_VAL]											=	{SPPLE_BLE_SEND_DATA, ATT_UUID_128_LEN, PERM(RD, ENABLE),
+		[SPPLE_IDX_AUTH_VAL]											=	{SPPLE_BLE_SEND_DATA, ATT_UUID_128_LEN, PERM(WR, ENABLE),
                                             DEF_AUTH_CHAR_LEN, 0, NULL},
 		
-		[SPPLE_IDX_AUTH_USER_DESC] 				= 		{(uint8_t*)&att_desc_user_desc, ATT_UUID_16_LEN,PERM(WR, ENABLE) | PERM(RD, ENABLE),
-                                            sizeof(DEF_AUTH_USER_DESC) - 1, sizeof(DEF_AUTH_USER_DESC) - 1,
-                                            (uint8_t *) DEF_AUTH_USER_DESC}
+		[SPPLE_IDX_AUTH_USER_DESC] 				= 		{(uint8_t*)&att_desc_user_desc, ATT_UUID_16_LEN,PERM(WR, ENABLE) | PERM(WRITE_COMMAND, ENABLE),
+                                            PERM(RI, ENABLE) | DEF_AUTH_CHAR_LEN, 0, NULL}
 };
 
 

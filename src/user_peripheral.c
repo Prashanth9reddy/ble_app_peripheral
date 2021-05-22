@@ -219,8 +219,10 @@ void user_app_adv_start(void)
 
     // Add manufacturer data to initial advertising or scan response data, if there is enough space
     app_add_ad_struct(cmd, &mnf_data, sizeof(struct mnf_specific_data_ad_structure), 1);
-
+	
     app_easy_gap_undirected_advertise_start();
+		    arch_printf("**Start Advertise**\n");
+
 }
 
 void user_app_connection(uint8_t connection_idx, struct gapc_connection_req_ind const *param)
@@ -284,17 +286,17 @@ void user_catch_rest_hndl(ke_msg_id_t const msgid,
     {
         case CUSTS1_VAL_WRITE_IND:
         {
-            struct custs1_val_write_ind const *msg_param = (struct custs1_val_write_ind const *)(param);
+            struct custs1_val_write_ind const *msg_param = (struct custs1_val_write_ind const *)(param);/// creating a structure 
 
             switch (msg_param->handle)
             {
-                case SVC1_IDX_CONTROL_POINT_VAL:
-                    user_svc1_ctrl_wr_ind_handler(msgid, msg_param, dest_id, src_id);
+                case SPPLE_IDX_APP_SEND_VAL:
+                    user_svc1_led_wr_ind_handler(msgid, msg_param, dest_id, src_id);
+								
+								
                     break;
 
-                case SVC1_IDX_LED_STATE_VAL:
-                    user_svc1_led_wr_ind_handler(msgid, msg_param, dest_id, src_id);
-                    break;
+                
 
                 case SVC1_IDX_ADC_VAL_1_NTF_CFG:
                     user_svc1_adc_val_1_cfg_ind_handler(msgid, msg_param, dest_id, src_id);

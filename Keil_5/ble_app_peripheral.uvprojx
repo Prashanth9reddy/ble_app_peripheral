@@ -1172,14 +1172,14 @@
               <FilePath>..\src\config\user_config.h</FilePath>
             </File>
             <File>
-              <FileName>user_modules_config.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\src\config\user_modules_config.h</FilePath>
-            </File>
-            <File>
               <FileName>user_periph_setup.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\src\config\user_periph_setup.h</FilePath>
+            </File>
+            <File>
+              <FileName>user_modules_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\src\config\user_modules_config.h</FilePath>
             </File>
             <File>
               <FileName>user_profiles_config.h</FileName>
@@ -1234,7 +1234,7 @@
       <TargetName>DA14586</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060750::V5.06 update 6 (build 750)::ARMCC</pCCUsed>
+      <pCCUsed>5060960::V5.06 update 7 (build 960)::.\ARMCC</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -2396,14 +2396,14 @@
               <FilePath>..\src\config\user_config.h</FilePath>
             </File>
             <File>
-              <FileName>user_modules_config.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\src\config\user_modules_config.h</FilePath>
-            </File>
-            <File>
               <FileName>user_periph_setup.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\src\config\user_periph_setup.h</FilePath>
+            </File>
+            <File>
+              <FileName>user_modules_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\src\config\user_modules_config.h</FilePath>
             </File>
             <File>
               <FileName>user_profiles_config.h</FileName>
@@ -3569,14 +3569,14 @@
               <FilePath>..\src\config\user_config.h</FilePath>
             </File>
             <File>
-              <FileName>user_modules_config.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\src\config\user_modules_config.h</FilePath>
-            </File>
-            <File>
               <FileName>user_periph_setup.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\src\config\user_periph_setup.h</FilePath>
+            </File>
+            <File>
+              <FileName>user_modules_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\src\config\user_modules_config.h</FilePath>
             </File>
             <File>
               <FileName>user_profiles_config.h</FileName>

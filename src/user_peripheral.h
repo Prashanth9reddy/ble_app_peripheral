@@ -47,6 +47,7 @@
  * DEFINES
  ****************************************************************************************
  */
+#define CFG_PRINTF
 
 /* Duration of timer for connection parameter update request */
 #define APP_PARAM_UPDATE_REQUEST_TO         (1000)   // 1000*10ms = 10sec, The maximum allowed value is 41943sec (4194300 * 10ms)
