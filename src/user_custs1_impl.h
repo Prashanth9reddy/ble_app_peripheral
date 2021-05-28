@@ -52,6 +52,7 @@ enum
 #include "gapm_task.h"                 // gap functions and messages
 #include "custs1_task.h"
 
+
 /*
  * FUNCTION DECLARATIONS
  ****************************************************************************************

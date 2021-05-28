@@ -108,13 +108,14 @@
 /*    -undefined    External processor mode. Host application runs on an external processor. Communicates with */
 /*                  BLE application through GTL protocol over a signalling iface (UART, SPI etc)               */
 /***************************************************************************************************************/
+
 #define CFG_APP
 
 /****************************************************************************************************************/
 /* Enables the BLE security functionality in TASK_APP. If not defined BLE security related code is compiled out.*/
 /****************************************************************************************************************/
-#undef CFG_APP_SECURITY
-
+//#undef CFG_APP_SECURITY
+#define CFG_APP_SECURITY
 /****************************************************************************************************************/
 /* Enables WatchDog timer.                                                                                      */
 /****************************************************************************************************************/

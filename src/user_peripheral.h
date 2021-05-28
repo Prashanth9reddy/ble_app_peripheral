@@ -14,6 +14,11 @@
 
 #ifndef _USER_PERIPHERAL_H_
 #define _USER_PERIPHERAL_H_
+#define DATALENGTH_TX_RX_BLE 	260
+#define NOTIFICATION_DELAY 200
+#define USER_DEVICE_NAME_LEN    15
+//uint8_t USER_DEVICE_NAME[USER_DEVICE_NAME_LEN]	__SECTION_ZERO("retention_mem_area0"); //@RETENTION MEMORY
+//uint8_t DEVICE_MAC[USER_DEVICE_NAME_LEN]	__SECTION_ZERO("retention_mem_area0"); //@RETENTION MEMORY
 
 /**
  ****************************************************************************************
@@ -41,6 +46,9 @@
 
 #include "app_callback.h"
 #include "app_default_handlers.h"
+
+#include "uart_utils.h"
+extern bool authenticate_flag;
 
 
 /*
@@ -128,4 +136,25 @@ void user_catch_rest_hndl(ke_msg_id_t const msgid,
 
 /// @} APP
 
+													
+													
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void user_update_device_name(char* name);												
+													
+void user_apdate_advert_time(uint8_t time);
+													
+void user_get_firmware(void);
+													
+void user_reset_ble(void);
+													
+void user_update_wakeup_period(uint8_t interval);
+													
+void user_get_mac(void);
+		
+void user_app_notify_handler(char* buffer);													
+						
+void	user_send_uart_ntf(char* buffer);
+													
+													
 #endif // _USER_PERIPHERAL_H_

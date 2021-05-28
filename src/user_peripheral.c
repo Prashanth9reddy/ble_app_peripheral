@@ -31,7 +31,12 @@
 #include "user_custs1_impl.h"
 #include "user_custs1_def.h"
 #include "co_bt.h"
+#include "arch_console.h"
+#include "user_serial_interface_manager.h"
 
+uint8_t X_timer     							__attribute__((section("retention_mem_area0"), zero_init)); //@RETENTION MEMORY
+
+bool authenticate_flag;
 /*
  * TYPE DEFINITIONS
  ****************************************************************************************
@@ -63,7 +68,7 @@ uint8_t stored_adv_data_len                     __SECTION_ZERO("retention_mem_ar
 uint8_t stored_scan_rsp_data_len                __SECTION_ZERO("retention_mem_area0"); //@RETENTION MEMORY
 uint8_t stored_adv_data[ADV_DATA_LEN]           __SECTION_ZERO("retention_mem_area0"); //@RETENTION MEMORY
 uint8_t stored_scan_rsp_data[SCAN_RSP_DATA_LEN] __SECTION_ZERO("retention_mem_area0"); //@RETENTION MEMORY
-
+uint8_t DEVICE_MAC[15]													__SECTION_ZERO("retention_mem_area0");
 /*
  * FUNCTION DEFINITIONS
  ****************************************************************************************
@@ -194,14 +199,16 @@ static void param_update_request_timer_cb()
 }
 
 void user_app_init(void)
-{
+{		
+		arch_printf("**Start USER APP INIT**\n");
+		//extern struct bd_addr dev_bdaddr;
     app_param_update_request_timer_used = EASY_TIMER_INVALID_TIMER;
-
     // Initialize Manufacturer Specific Data
     mnf_data_init();
 
     // Initialize Advertising and Scan Response Data
     memcpy(stored_adv_data, USER_ADVERTISE_DATA, USER_ADVERTISE_DATA_LEN);
+		
     stored_adv_data_len = USER_ADVERTISE_DATA_LEN;
     memcpy(stored_scan_rsp_data, USER_ADVERTISE_SCAN_RESPONSE_DATA, USER_ADVERTISE_SCAN_RESPONSE_DATA_LEN);
     stored_scan_rsp_data_len = USER_ADVERTISE_SCAN_RESPONSE_DATA_LEN;
@@ -215,6 +222,8 @@ void user_app_adv_start(void)
     app_adv_data_update_timer_used = app_easy_timer(APP_ADV_DATA_UPDATE_TO, adv_data_update_timer_cb);
 
     struct gapm_start_advertise_cmd* cmd;
+		//DEVICE_MAC=cmd->op.addr_src;
+	//memcpy(DEVICE_MAC,cmd->op.addr_src,15);
     cmd = app_easy_gap_undirected_advertise_get_active();
 
     // Add manufacturer data to initial advertising or scan response data, if there is enough space
@@ -222,6 +231,8 @@ void user_app_adv_start(void)
 	
     app_easy_gap_undirected_advertise_start();
 		    arch_printf("**Start Advertise**\n");
+	
+				//authenticate_flag=false;
 
 }
 
@@ -245,11 +256,12 @@ void user_app_connection(uint8_t connection_idx, struct gapc_connection_req_ind 
             app_param_update_request_timer_used = app_easy_timer(APP_PARAM_UPDATE_REQUEST_TO, param_update_request_timer_cb);
         }
     }
-    else
-    {
+   // else if(advertise_flag)
+   // {
         // No connection has been established, restart advertising
-        user_app_adv_start();
-    }
+			
+      //  user_app_adv_start();
+  //  }
 
     default_app_on_connection(connection_idx, param);
 }
@@ -274,7 +286,7 @@ void user_app_disconnect(struct gapc_disconnect_ind const *param)
     // Update manufacturer data for the next advertsing event
     mnf_data_update();
     // Restart Advertising
-    user_app_adv_start();
+//    user_app_adv_start();
 }
 
 void user_catch_rest_hndl(ke_msg_id_t const msgid,
@@ -284,63 +296,42 @@ void user_catch_rest_hndl(ke_msg_id_t const msgid,
 {
     switch(msgid)
     {
-        case CUSTS1_VAL_WRITE_IND:
+				
+        case CUSTS1_VAL_WRITE_IND:   /////////////Comparing the MSG ID
         {
             struct custs1_val_write_ind const *msg_param = (struct custs1_val_write_ind const *)(param);/// creating a structure 
 
             switch (msg_param->handle)
             {
                 case SPPLE_IDX_APP_SEND_VAL:
-                    user_svc1_led_wr_ind_handler(msgid, msg_param, dest_id, src_id);
+                if(authenticate_flag)    
+								user_svc1_led_wr_ind_handler(msgid, msg_param, dest_id, src_id);
 								
 								
                     break;
-
+								case SPPLE_IDX_AUTH_VAL:
+										ble_authenticate_app(msgid, msg_param, dest_id, src_id);
+										
+								break;
+									
                 
 
-                case SVC1_IDX_ADC_VAL_1_NTF_CFG:
-                    user_svc1_adc_val_1_cfg_ind_handler(msgid, msg_param, dest_id, src_id);
-                    break;
-
-                case SVC1_IDX_BUTTON_STATE_NTF_CFG:
-                    user_svc1_button_cfg_ind_handler(msgid, msg_param, dest_id, src_id);
-                    break;
-
-                case SVC1_IDX_INDICATEABLE_IND_CFG:
-                    user_svc1_long_val_cfg_ind_handler(msgid, msg_param, dest_id, src_id);
-                    break;
-
-                case SVC1_IDX_LONG_VALUE_NTF_CFG:
-                    user_svc1_long_val_cfg_ind_handler(msgid, msg_param, dest_id, src_id);
-                    break;
-
-                case SVC1_IDX_LONG_VALUE_VAL:
-                    user_svc1_long_val_wr_ind_handler(msgid, msg_param, dest_id, src_id);
-                    break;
 
                 default:
                     break;
             }
         } break;
 
-        case CUSTS1_VAL_NTF_CFM:
+        //case CUSTS1_VAL_NTF_CFM:
+				case RX_DATAREADY:
         {
-            struct custs1_val_ntf_cfm const *msg_param = (struct custs1_val_ntf_cfm const *)(param);
-
-            switch (msg_param->handle)
-            {
-                case SVC1_IDX_ADC_VAL_1_VAL:
-                    break;
-
-                case SVC1_IDX_BUTTON_STATE_VAL:
-                    break;
-
-                case SVC1_IDX_LONG_VALUE_VAL:
-                    break;
-
-                default:
-                    break;
-            }
+          struct rx_dataready const *msg_param = (struct rx_dataready const *)(param);
+					char buffer[260];
+					memcpy(buffer, msg_param->receive_buffer_data, msg_param->receive_buffer_length);
+//					user_app_notify_handler(msgid, msg_param, dest_id, src_id);
+					user_app_notify_handler(buffer);
+					
+            
         } break;
 
         case CUSTS1_VAL_IND_CFM:
@@ -372,7 +363,7 @@ void user_catch_rest_hndl(ke_msg_id_t const msgid,
                     break;
              }
         } break;
-
+			
         case GAPC_PARAM_UPDATED_IND:
         {
             // Cast the "param" pointer to the appropriate message structure
@@ -424,5 +415,49 @@ void user_catch_rest_hndl(ke_msg_id_t const msgid,
             break;
     }
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+void user_adv_data_update(void)
+{
+mnf_data_update();
+adv_data_update_timer_cb();
+}
+
+
+
+
+
+
+////////send uart data to ble stack
+void	user_send_uart_ntf(char *buffer)
+{
+	struct custs1_val_ntf_ind_req* req = KE_MSG_ALLOC_DYN(CUSTS1_VAL_NTF_REQ,                   //Message id
+                                                          prf_get_task_from_id(TASK_ID_CUSTS1), //Target task
+                                                          TASK_APP,                             //Source of the message
+                                                          custs1_val_ntf_ind_req,               //The type of structure in the message,
+                                                          6);                       //How many bytes of data will be added
+
+    //Initialize message fields
+    req->conidx = 1;
+    req->notification = true;
+    req->handle = SPPLE_IDX_BLE_SEND_VAL;
+    req->length = DATALENGTH_TX_RX_BLE;
+    memcpy(req->value, buffer, DATALENGTH_TX_RX_BLE);
+
+    //Send the message to the task
+    ke_msg_send(req);
+    
+    //Set a timer for 100 ms (10*10)
+    X_timer = app_easy_timer(NOTIFICATION_DELAY / 10, user_send_uart_ntf);
+	
+
+
+}
+	
+
+
 
 /// @} APP

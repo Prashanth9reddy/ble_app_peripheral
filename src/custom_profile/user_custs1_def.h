@@ -32,6 +32,8 @@
 
 #include "attm_db_128.h"
 
+
+
 /*
  * DEFINES
  ****************************************************************************************
@@ -102,7 +104,7 @@
 
 #define DEF_BLE_SEND_CHAR_LEN							250
 
-#define DEF_AUTH_CHAR_LEN 								15
+#define DEF_AUTH_CHAR_LEN 								150
 
 //#define DEF_SPPLE_SERVICE_UUID_128				{0x14,0x83,0x9A,0xC4,0x7D,0x7E,0x41,0x5C,0x9A,0x42,0x16,0x73,0x40,0xCF,0x23,0x39}
 
@@ -207,12 +209,12 @@ enum
     SPPLE_IDX_APP_SEND_VAL,
     SPPLE_IDX_APP_SEND_USER_DESC,
 	
-		SPPLE_BLE_SVC,
+		//SPPLE_BLE_SVC,
 		SPPLE_IDX_BLE_SEND_CHAR,
     SPPLE_IDX_BLE_SEND_VAL,
     SPPLE_IDX_BLE_SEND_USER_DESC,
 	
-		SPPLE_AUTH_SVC,
+		//SPPLE_AUTH_SVC,
 		SPPLE_IDX_AUTH_CHAR,
     SPPLE_IDX_AUTH_VAL,
     SPPLE_IDX_AUTH_USER_DESC,

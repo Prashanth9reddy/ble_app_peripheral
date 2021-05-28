@@ -119,7 +119,7 @@ static const struct arch_main_loop_callbacks user_app_main_loop_callbacks = {
 
 // Default Handler Operations
 static const struct default_app_operations user_default_app_operations = {
-    .default_operation_adv = user_app_adv_start,
+    .default_operation_adv = NULL,
 };
 
 // Place in this structure the app_<profile>_db_create and app_<profile>_enable functions

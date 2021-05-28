@@ -1,4 +1,4 @@
-;#<FEEDBACK># ARM Linker, 5060960: Last Updated: Sat May 22 11:10:38 2021
+;#<FEEDBACK># ARM Linker, 5060960: Last Updated: Fri May 28 16:57:09 2021
 ;VERSION 0.2
 ;FILE adc_531.o
 adc_correct_sample <= USED 0
@@ -285,17 +285,21 @@ uart_read_byte <= USED 0
 uart_receive <= USED 0
 uart_register_err_cb <= USED 0
 uart_register_rx_cb <= USED 0
+;FILE uart_utils.o
+itoa <= USED 0
+print_hword <= USED 0
+print_word <= USED 0
+printf_byte <= USED 0
+printf_byte_dec <= USED 0
+printf_string <= USED 0
 ;FILE user_custs1_impl.o
-ble_authenticate_app <= USED 0
 user_app_authenticate <= USED 0
-user_svc1_adc_val_1_ntf_cfm_handler <= USED 0
-user_svc1_button_ntf_cfm_handler <= USED 0
 user_svc1_ctrl_wr_ind_handler <= USED 0
-user_svc1_indicateable_cfg_ind_handler <= USED 0
-user_svc1_indicateable_ind_cfm_handler <= USED 0
-user_svc1_long_val_ntf_cfm_handler <= USED 0
 ;FILE user_periph_setup.o
 ;FILE user_peripheral.o
+;FILE user_serial_interface_manager.o
+sim_uart_receive_interrupt <= USED 0
+sim_uart_send_interrupt <= USED 0
 ;FILE wkupct_quadec.o
 quad_decoder_clear_irq <= USED 0
 quad_decoder_disable_irq <= USED 0

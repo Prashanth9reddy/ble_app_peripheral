@@ -51,7 +51,7 @@
  * Select only one option for privacy / addressing configuration.
  **************************************************************************
  */
-#define USER_CFG_ADDRESS_MODE       APP_CFG_HOST_PRIV_RPA
+#define USER_CFG_ADDRESS_MODE       APP_CFG_ADDR_PUB
 
 /*************************************************************************
  * Controller Privacy Mode:
@@ -190,10 +190,11 @@ static const struct advertise_configuration user_adv_conf = {
  ****************************************************************************************
  */
 /// Device name
-#define USER_DEVICE_NAME        "AA-123456789"
+#define USER_DEVICE_NAME        "AA-123456779"
 
+//char *USER_DEVICE_NAME="AA-123456779";
 /// Device name length
-#define USER_DEVICE_NAME_LEN    (sizeof(USER_DEVICE_NAME)-1)
+
 
 /*
  ****************************************************************************************

@@ -936,6 +936,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\..\sdk\platform\driver\dma\dma.c</FilePath>
             </File>
+            <File>
+              <FileName>uart_utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\uart_utils.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1225,6 +1230,16 @@
               <FileName>user_peripheral.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\user_peripheral.c</FilePath>
+            </File>
+            <File>
+              <FileName>user_serial_interface_manager.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\user_serial_interface_manager.c</FilePath>
+            </File>
+            <File>
+              <FileName>user_serial_interface_manager.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\src\user_serial_interface_manager.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -2160,6 +2175,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\..\sdk\platform\driver\dma\dma.c</FilePath>
             </File>
+            <File>
+              <FileName>uart_utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\uart_utils.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -2449,6 +2469,16 @@
               <FileName>user_peripheral.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\user_peripheral.c</FilePath>
+            </File>
+            <File>
+              <FileName>user_serial_interface_manager.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\user_serial_interface_manager.c</FilePath>
+            </File>
+            <File>
+              <FileName>user_serial_interface_manager.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\src\user_serial_interface_manager.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -3333,6 +3363,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\..\sdk\platform\driver\dma\dma.c</FilePath>
             </File>
+            <File>
+              <FileName>uart_utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\uart_utils.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -3622,6 +3657,16 @@
               <FileName>user_peripheral.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\user_peripheral.c</FilePath>
+            </File>
+            <File>
+              <FileName>user_serial_interface_manager.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\user_serial_interface_manager.c</FilePath>
+            </File>
+            <File>
+              <FileName>user_serial_interface_manager.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\src\user_serial_interface_manager.h</FilePath>
             </File>
           </Files>
         </Group>

@@ -36,7 +36,7 @@
 ke_msg_id_t timer_used      __SECTION_ZERO("retention_mem_area0"); //@RETENTION MEMORY
 uint16_t indication_counter __SECTION_ZERO("retention_mem_area0"); //@RETENTION MEMORY
 uint16_t non_db_val_counter __SECTION_ZERO("retention_mem_area0"); //@RETENTION MEMORY
-bool authenticate_flag 			__SECTION_ZERO("retention_mem_area0"); //@RETENTION MEMORY
+//bool authenticate_flag 			__SECTION_ZERO("retention_mem_area0"); //@RETENTION MEMORY
 /*
  * FUNCTION DEFINITIONS
  ****************************************************************************************
@@ -64,24 +64,105 @@ void user_svc1_ctrl_wr_ind_handler(ke_msg_id_t const msgid,
     }
 }
 
+void user_app_notify_handler(char* buffer){
+	
+	//char buffer[DATALENGTH_TX_RX_BLE]="";
+  //memcpy(buffer, param->receive_buffer[0], param->receive_buffer_length);		 
+	if(buffer[0] == '$' )	
+	{
+		user_send_uart_ntf(buffer);
+    
+	}
+	
+	
+
+	else if(strcmp(buffer,"AT+BLE_NAME") == 0 )	
+	{
+		/////CHANGE DEVICE NAME AND ALSO START OR RETSART THE ADVERTAISMENT
+		///diconnecting before updating Advertise Data
+	  app_easy_gap_disconnect(1);
+		//memcpy(USER_DEVICE_NAME,&buffer[11],USER_DEVICE_NAME_LEN);
+		//mnf_data_init();
+		//mnf_data_update();
+		#undef USER_DEVICE_NAME
+		#define USER_DEVICE_NAME buffer[11:]
+		user_adv_data_update();
+		user_app_adv_start();
+	}
+			
+		
+	else if(strcmp(buffer,"AT+ADVERTTIME") == 0 )	
+	{
+		////////////CAHENGES THE ADVERTAISMENT TIME
+		
+	
+	}
+	
+	
+	else if(strcmp(buffer,"AT+DISCONNECT") == 0 )	
+	{
+		app_easy_gap_disconnect(1);
+		////disconnect the ble connection
+	
+	}
+	
+	
+	else if(strcmp(buffer,"AT+GET_FIRMWARE") == 0 )	
+	{
+		
+		
+	/////SENDS CURRENT SOFTWARE VERSION INFO -> SDK_VERSION
+		/////SEND SDK_VERSION macro
+	}
+	
+	
+	else if(strcmp(buffer,"AT+RESET_BLE") == 0 )	
+	{
+		////RESETS THE BLE
+	
+	}
+	
+	
+	else if(strcmp(buffer,"AT+HBT_INTERVAL") == 0 )	
+	{
+		/////SHALL CHANGES THE WAKEUP INTERVAL
+	
+	}
+	
+	
+	else if(strcmp(buffer,"AT+MAC") == 0 )	
+	{
+		
+		
+	//////BLE HAS TO SEND ITS MAC ADDRESS
+	//have to send MAC address Over UART i.e DEVICE_MAC
+		
+	}
+	else if(strcmp(buffer,"AT+SLEEP") == 0 )	
+	{
+		
+	//////BLE HAS TO STOP ADVERTISING
+		app_easy_gap_advertise_stop();
+	}
+																		 
+}
+																																																																				 
+																
+
 void user_svc1_led_wr_ind_handler(ke_msg_id_t const msgid,
                                      struct custs1_val_write_ind const *param,
                                      ke_task_id_t const dest_id,
                                      ke_task_id_t const src_id)
 {
    // uint8_t val = 0;
-		char val[10]=NULL;
+		char val[DATALENGTH_TX_RX_BLE]="";
     memcpy(&val, &param->value[0], param->length);
-
-   // if (val == CUSTS1_LED_ON)
-			if((strcmp(val,"LED_ON")==0) && authenticate_flag)
-    {
-        GPIO_SetActive(GPIO_LED_PORT, GPIO_LED_PIN);
-    }
-    else if ((strcmp(val,"LED_OFF")==0) && authenticate_flag)
-    {
-        GPIO_SetInactive(GPIO_LED_PORT, GPIO_LED_PIN);
-    }
+		//HAVE TO DONE BY JABIDA????
+	
+		//SEND THE MESSAGE TO MOBILE APPLICATION
+		
+		
+   
 }
 
 
@@ -92,14 +173,21 @@ void ble_authenticate_app(ke_msg_id_t const msgid,
                                      ke_task_id_t const dest_id,
                                      ke_task_id_t const src_id)
 {
-	
-	if(!strcmp(&param->value[0],"0xDADADADA"))
+	char val[10]="";
+    memcpy(&val, &param->value[0], param->length);
+	if(!strcmp(val,"0xDADADADA"))
+	{
 	authenticate_flag=true;
+	GPIO_SetActive(GPIO_LED_PORT, GPIO_LED_PIN);
+	}
 	
 	else
+	{
 		app_easy_gap_disconnect(param->conidx);
+		user_app_adv_start();
 		
-	
+		//GPIO_SetInactive(GPIO_LED_PORT, GPIO_LED_PIN);
+	}
    // uint8_t val = 0;
 		/*char val[10]=NULL;
     memcpy(&val, &param->value[0], param->length);
@@ -116,7 +204,7 @@ void ble_authenticate_app(ke_msg_id_t const msgid,
 }
 
 
-void user_svc1_long_val_cfg_ind_handler(ke_msg_id_t const msgid,
+/*void user_svc1_long_val_cfg_ind_handler(ke_msg_id_t const msgid,
                                            struct custs1_val_write_ind const *param,
                                            ke_task_id_t const dest_id,
                                            ke_task_id_t const src_id)
@@ -199,6 +287,7 @@ void user_svc1_indicateable_ind_cfm_handler(ke_msg_id_t const msgid,
                                                ke_task_id_t const src_id)
 {
 }
+*/
 
 void user_svc1_long_val_att_info_req_handler(ke_msg_id_t const msgid,
                                                 struct custs1_att_info_req const *param,
@@ -241,6 +330,7 @@ void user_svc1_rest_att_info_req_handler(ke_msg_id_t const msgid,
 
     ke_msg_send(rsp);
 }
+
 
 void app_adcval1_timer_cb_handler()
 {
